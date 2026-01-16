@@ -99,6 +99,8 @@
     <div id="cart-summary">
       <div class="cart-total" id="total-price">Total: Rs. 0</div>
       <button onclick="printBill()" class="print-btn">Print Bill</button>
+       <button onclick="sendWhatsApp()" class="checkout-btn">
+  Send Bill via WhatsApp</button>
       <button class="checkout-btn" onclick="processOrder()">Proceed to Checkout</button>
     </div>
   </div>
@@ -154,7 +156,24 @@ function printBill() {
     window.print();
 
 }
+function sendWhatsApp() {
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  let total = 0;
+  let message = "🧾 *SPICY HUT - BILL*\n\n";
 
+  cart.forEach((item, i) => {
+    message += `${i + 1}. ${item.name} - Rs.${item.price}\n`;
+    total += item.price;
+  });
+
+  message += `\n💰 Total: Rs.${total}\n`;
+  message += "\nThank you for dining with us 🙏";
+
+  let phoneNumber = "947XXXXXXXX"; // 👈 your WhatsApp number
+  let url = "https://wa.me/" + phoneNumber + "?text=" + encodeURIComponent(message);
+
+  window.open(url, "_blank");
+}
   </script>
 </body>
 </html>
